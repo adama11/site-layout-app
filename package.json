@@ -1,0 +1,41 @@
+{
+  "name": "site-layout-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "npx @biomejs/biome check . --apply",
+    "generate": "npm drizzle-kit generate:sqlite",
+    "migrate": "npm tsx src/db/migrate.ts",
+    "drizzle-push": "npm drizzle-kit push:sqlite",
+    "new-local-db": "turso db create model-sync-pro-local && turso db tokens create model-sync-pro-local -e none",
+    "blank-migration": "npm drizzle-kit generate:sqlite --custom"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.4.3",
+    "@tailwindcss/typography": "^0.5.14",
+    "axios": "^1.7.3",
+    "biome": "^0.3.3",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.29.5",
+    "next": "14.1.0",
+    "node-vibrant": "^3.1.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@types/node": "18.17.1",
+    "@types/react": "18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "autoprefixer": "^10.4.20",
+    "drizzle-kit": "^0.20.13",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.9",
+    "tsx": "^4.7.0",
+    "typescript": "5.3.3"
+  }
+}
