@@ -9,8 +9,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./site-layout-app-vol/src:/src
-      - ./site-layout-app-vol/public:/public
+      - ./:/app
     restart: always
     ports:
       - 8000:3000

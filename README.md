@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 1. install Docker Desktop
 2. install `npm` for local dev
-3. `npm install && npm install -D`
+3. `make install-dev`
 5. `make build`
 6. `make run`
 

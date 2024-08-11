@@ -1,6 +1,9 @@
 build:
 	docker compose build
 
+build-fresh:
+	docker compose build --no-cache
+
 run:
 	docker compose up
 

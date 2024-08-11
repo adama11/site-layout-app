@@ -7,7 +7,7 @@ export const metadata = {
   metadataBase: new URL('https://site-layout-app.vercel.app'),
 };
 
-export function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>{children}</body>
