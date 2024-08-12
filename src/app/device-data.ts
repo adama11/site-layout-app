@@ -15,11 +15,14 @@ export type DeviceInfo = {
   releaseDate: string;
   type: string;
   image: string;
+  powerLevel: number;
+  powerColor: string;
 };
 
 export const deviceData: Record<string, DeviceInfo> = {
   MegapackXL: {
-    description: "Latest features and best performance.",
+    description:
+      "Highest power demands, latest features, and best performance.",
     abbreviation: "MPXL",
     xDimension: 40, // in feet
     yDimension: 10, // in feet
@@ -28,6 +31,8 @@ export const deviceData: Record<string, DeviceInfo> = {
     releaseDate: "2022",
     type: "battery",
     image: "megapackxl.jpg",
+    powerLevel: 4,
+    powerColor: "#76e841",
   },
   Megapack2: {
     description: "High power demands and medium-sized deployments.",
@@ -39,6 +44,8 @@ export const deviceData: Record<string, DeviceInfo> = {
     releaseDate: "2021",
     type: "battery",
     image: "megapack.jpg",
+    powerLevel: 3,
+    powerColor: "#00b4ff",
   },
   Megapack: {
     description: "Medium power demands for simple deployments.",
@@ -50,6 +57,8 @@ export const deviceData: Record<string, DeviceInfo> = {
     releaseDate: "2005",
     type: "battery",
     image: "megapack.jpg",
+    powerLevel: 2,
+    powerColor: "#00b4ff",
   },
   PowerPack: {
     description: "Low power demands for small deployments.",
@@ -61,6 +70,8 @@ export const deviceData: Record<string, DeviceInfo> = {
     releaseDate: "2000",
     type: "battery",
     image: "powerpack.jpg",
+    powerLevel: 1,
+    powerColor: "#00b4ff",
   },
   Transformer: {
     description: "Supporting hardware for industrial batteries.",
@@ -72,5 +83,7 @@ export const deviceData: Record<string, DeviceInfo> = {
     releaseDate: "-",
     type: "transformer",
     image: "transformer.jpg",
+    powerLevel: 1,
+    powerColor: "red",
   },
 };

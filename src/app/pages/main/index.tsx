@@ -74,10 +74,12 @@ export function Main() {
   }, [sessionName]);
   useEffect(() => {
     if (siteDevices === undefined) {
-      const newSiteDevices = loadSiteDevices();
-      setSiteDevices(newSiteDevices);
-      setSiteLayout(getSiteLayout(newSiteDevices));
+      setSiteDevices(loadSiteDevices());
     }
+  }, [siteDevices]);
+  useEffect(() => {
+    if (siteDevices === undefined) return;
+    setSiteLayout(getSiteLayout(siteDevices));
   }, [siteDevices]);
 
   // Save session side effect
@@ -233,7 +235,7 @@ export function Main() {
           <CardHeader>
             <CardTitle>
               <div className="font-bold text-3xl text-slate-700">
-                Sample Layout
+                Sample Site Layout
               </div>
             </CardTitle>
           </CardHeader>
@@ -259,7 +261,7 @@ export function Main() {
                     </div>
                   </div>
                   <div className="flex flex-row">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col lg:w-1/2">
                       <div className="text-lg uppercase text-slate-400 font-bold text-center border-b-4 mb-2 border-slate-400">
                         {siteLayout.estimatedSiteWidth.toFixed(0)} ft
                       </div>

@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TbInfoCircle } from "react-icons/tb";
+import { TbBolt, TbInfoCircle } from "react-icons/tb";
 
 import {
   Tooltip,
@@ -55,7 +55,12 @@ export const BatteryInfoCard = ({
           <div className="text-xs uppercase text-slate-400 font-bold">
             Power
           </div>
-          <div className="text-lg mb-2">{device.power} MWh</div>
+          <div className="text-lg">{device.power} MWh</div>
+          <div className="flex mb-2">
+            {Array(device.powerLevel).fill(
+              <TbBolt color={device.powerColor} />
+            )}
+          </div>
           <div className="text-xs uppercase text-slate-400 font-bold">Cost</div>
           <div className="text-lg mb-2">{usdFormatter.format(device.cost)}</div>
           <div className="text-xs uppercase text-slate-400 font-bold">

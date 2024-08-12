@@ -25,17 +25,13 @@ export const getSiteLayout = (siteDevices: SiteDevices): SiteLayout => {
 
   let remainingSiteWidth = MAX_LAYOUT_WIDTH;
   let currentWidth = 0;
-  console.log("starting", devices);
   while (!_.isEmpty(devices)) {
-    console.log("remaining", devices);
     let didAdd = false;
     for (const [deviceName, deviceInfo] of Object.entries(deviceData)) {
-      console.log("loop", deviceName);
       if (
         devices[deviceName] > 0 &&
         remainingSiteWidth >= deviceInfo.xDimension
       ) {
-        console.log("adding", deviceName);
         positions[rowIndex].push({
           deviceName,
           x: currentWidth,
@@ -58,12 +54,10 @@ export const getSiteLayout = (siteDevices: SiteDevices): SiteLayout => {
     }
   }
   const height = (rowIndex + 1) * 10;
-  const layout = {
+  return {
     estimatedSiteWidth: maxWidth,
     estimatedSiteHeight: height,
     estimatedSiteArea: maxWidth * height,
     layoutPositions: positions,
   };
-  console.log("ending", layout);
-  return layout;
 };

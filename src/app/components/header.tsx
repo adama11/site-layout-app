@@ -66,7 +66,7 @@ export const Header = ({
               </MenubarItem>
               <MenubarSeparator />
               <div className="px-2 pt-2 text-xs font-bold uppercase text-slate-400">
-                Last Updated
+                Last saved (auto)
               </div>
               <div className="px-2 pb-2 text-sm">{lastUpdatedText}</div>
             </MenubarContent>
