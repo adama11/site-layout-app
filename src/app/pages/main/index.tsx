@@ -4,6 +4,7 @@ import { BatteryInfoCard } from "@/app/components/battery-info-card";
 import { DeviceSummaryRow } from "@/app/components/device-summary-row";
 import { EmptyCard } from "@/app/components/empty-card";
 import { Header } from "@/app/components/header";
+import { SampleLayoutCanvas } from "@/app/components/sample-layout-canvas";
 import { SkeletonCard } from "@/app/components/skeleton-card";
 import { deviceData } from "@/app/device-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -73,7 +74,9 @@ export function Main() {
   }, [sessionName]);
   useEffect(() => {
     if (siteDevices === undefined) {
-      setSiteDevices(loadSiteDevices());
+      const newSiteDevices = loadSiteDevices();
+      setSiteDevices(newSiteDevices);
+      setSiteLayout(getSiteLayout(newSiteDevices));
     }
   }, [siteDevices]);
 
@@ -135,6 +138,11 @@ export function Main() {
     }
   };
 
+  let siteLayoutIsEmpty =
+    _.isEmpty(siteLayout) ||
+    (siteLayout.layoutPositions.length === 1 &&
+      _.isEmpty(siteLayout.layoutPositions[0]));
+
   return (
     <div className="min-h-screen flex flex-col items-center bg-slate-300 pb-10">
       <Header
@@ -142,6 +150,7 @@ export function Main() {
         lastUpdatedText={lastUpdatedText}
         setSessionName={setSessionName}
         setSiteDevices={setSiteDevices}
+        setSiteLayout={setSiteLayout}
         getNewSessionName={getNewSessionName}
       />
       <div className="w-full font-bold text-3xl text-slate-700 text-left pt-5 px-10">
@@ -189,10 +198,16 @@ export function Main() {
                 <div className="xs:col-span-1 lg:col-span-2">
                   <div className="flex flex-col">
                     <div className="text-sm uppercase text-slate-400 font-bold">
-                      Total Area
+                      Total Equipment Area
                     </div>
                     <div className="text-2xl mb-4">
                       {computeTotalArea(siteDevices).toFixed(0)} ft²
+                    </div>
+                    <div className="text-sm uppercase text-slate-400 font-bold">
+                      Estimated Total Site Area (see Sample Layout)
+                    </div>
+                    <div className="text-2xl mb-4">
+                      {siteLayout?.estimatedSiteArea.toFixed(0)} ft²
                     </div>
                     <div className="text-sm uppercase text-slate-400 font-bold">
                       Total Power
@@ -224,9 +239,35 @@ export function Main() {
           </CardHeader>
           <CardContent>
             {siteLayout === undefined && <SkeletonCard />}
-            {siteLayout !== undefined && _.isEmpty(siteLayout) && <EmptyCard />}
-            {siteLayout !== undefined && !_.isEmpty(siteLayout) && (
-              <div>hi</div>
+            {siteLayout !== undefined && siteLayoutIsEmpty && <EmptyCard />}
+            {siteLayout !== undefined && !siteLayoutIsEmpty && (
+              <div className="rounded-sm">
+                <div className="flex flex-row">
+                  <div className="flex flex-col">
+                    <div className="text-lg mb-3">
+                      <br />
+                    </div>
+                    <div
+                      className="grow text-lg uppercase text-slate-400 font-bold text-center border-l-4 mr-2 border-slate-400"
+                      style={{
+                        writingMode: "vertical-rl",
+                        textOrientation: "sideways",
+                        transform: "rotate(180deg)",
+                      }}
+                    >
+                      {siteLayout.estimatedSiteHeight.toFixed(0)} ft
+                    </div>
+                  </div>
+                  <div className="flex flex-row">
+                    <div className="flex flex-col">
+                      <div className="text-lg uppercase text-slate-400 font-bold text-center border-b-4 mb-2 border-slate-400">
+                        {siteLayout.estimatedSiteWidth.toFixed(0)} ft
+                      </div>
+                      <SampleLayoutCanvas siteLayout={siteLayout} />
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
           </CardContent>
         </Card>

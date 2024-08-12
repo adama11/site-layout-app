@@ -38,8 +38,8 @@ export const getSiteLayout = (siteDevices: SiteDevices): SiteLayout => {
         console.log("adding", deviceName);
         positions[rowIndex].push({
           deviceName,
-          x: currentWidth / 10,
-          y: rowIndex,
+          x: currentWidth,
+          y: rowIndex * 10,
         });
         devices[deviceName] = Math.max(0, devices[deviceName] - 1);
         if (devices[deviceName] === 0) delete devices[deviceName];

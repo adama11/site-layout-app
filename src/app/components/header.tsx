@@ -9,18 +9,22 @@ import {
 import { TbChevronDown, TbLoader2, TbRefresh } from "react-icons/tb";
 import Image from "next/image";
 import type { SiteDevices } from "../pages/main";
+import { set } from "lodash";
+import { SiteLayout } from "@/lib/layoutUtils";
 
 export const Header = ({
   sessionName,
   lastUpdatedText,
   setSessionName,
   setSiteDevices,
+  setSiteLayout,
   getNewSessionName,
 }: {
   sessionName: string | undefined;
   lastUpdatedText: string;
   setSessionName: (name: string) => void;
   setSiteDevices: (devices: SiteDevices) => void;
+  setSiteLayout: (layout: SiteLayout | undefined) => void;
   getNewSessionName: () => string;
 }) => {
   return (
@@ -55,6 +59,7 @@ export const Header = ({
                 onClick={() => {
                   setSessionName(getNewSessionName());
                   setSiteDevices({});
+                  setSiteLayout(undefined);
                 }}
               >
                 <TbRefresh className="mr-2 cursor-pointer" /> New Session
