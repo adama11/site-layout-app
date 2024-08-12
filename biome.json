@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
   "organizeImports": {
-    "enabled": true
+    "enabled": false
   },
   "linter": {
     "enabled": true,
@@ -16,7 +16,12 @@
     }
   },
   "files": {
-    "ignore": [".next/*", "node_modules/*"]
+    "ignore": [
+      ".next/*",
+      "node_modules/*",
+      "src/components/ui",
+      "./tailwind.config.ts"
+    ]
   },
   "json": {
     "formatter": {

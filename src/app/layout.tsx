@@ -7,6 +7,7 @@ export const metadata = {
   metadataBase: new URL('https://site-layout-app.vercel.app'),
 };
 
+// biome-ignore lint/style/noDefaultExport: false
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
