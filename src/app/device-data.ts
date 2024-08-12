@@ -5,60 +5,72 @@
 // PowerPack 10FT x 10FT 1 MWh $10,000 2000
 // Transformer 10FT x 10FT -0.5MWh $10,000 -
 
-export const deviceData = [
-  {
-    name: 'MegapackXL',
-    description: 'Latest features and best performance.',
+export type DeviceInfo = {
+  description: string;
+  abbreviation: string;
+  xDimension: number;
+  yDimension: number;
+  power: number;
+  cost: number;
+  releaseDate: string;
+  type: string;
+  image: string;
+};
+
+export const deviceData: Record<string, DeviceInfo> = {
+  MegapackXL: {
+    description: "Latest features and best performance.",
+    abbreviation: "MPXL",
     xDimension: 40, // in feet
     yDimension: 10, // in feet
     power: 4, // in MWh
     cost: 120_000, // in $USD
-    releaseDate: '2022',
-    type: 'battery',
-    image: 'megapackxl.jpg',
+    releaseDate: "2022",
+    type: "battery",
+    image: "megapackxl.jpg",
   },
-  {
-    name: 'Megapack2',
-    description: 'High power demands and medium-sized deployments.',
+  Megapack2: {
+    description: "High power demands and medium-sized deployments.",
+    abbreviation: "MP2",
     xDimension: 30, // in feet
     yDimension: 10, // in feet
     power: 3, // in MWh
     cost: 80_000, // in $USD
-    releaseDate: '2021',
-    type: 'battery',
-    image: 'megapack.jpg',
+    releaseDate: "2021",
+    type: "battery",
+    image: "megapack.jpg",
   },
-  {
-    name: 'Megapack',
-    description: 'Medium power demands for simple deployments.',
+  Megapack: {
+    description: "Medium power demands for simple deployments.",
+    abbreviation: "MP",
     xDimension: 30, // in feet
     yDimension: 10, // in feet
     power: 2, // in MWh
     cost: 50_000, // in $USD
-    releaseDate: '2005',
-    type: 'battery',
-    image: 'megapack.jpg',
+    releaseDate: "2005",
+    type: "battery",
+    image: "megapack.jpg",
   },
-  {
-    name: 'PowerPack',
-    description: 'Low power demands for small deployments.',
+  PowerPack: {
+    description: "Low power demands for small deployments.",
+    abbreviation: "PP",
     xDimension: 10, // in feet
     yDimension: 10, // in feet
     power: 1, // in MWh
     cost: 10_000, // in $USD
-    releaseDate: '2000',
-    type: 'battery',
-    image: 'powerpack.jpg',
+    releaseDate: "2000",
+    type: "battery",
+    image: "powerpack.jpg",
   },
-  {
-    name: 'Transformer',
-    description: 'Supporting hardware for industrial batteries.',
+  Transformer: {
+    description: "Supporting hardware for industrial batteries.",
+    abbreviation: "TX",
     xDimension: 10, // in feet
     yDimension: 10, // in feet
     power: -0.5, // in MWh
     cost: 10_000, // in $USD
-    releaseDate: '-',
-    type: 'transformer',
-    image: 'transformer.jpg',
+    releaseDate: "-",
+    type: "transformer",
+    image: "transformer.jpg",
   },
-];
+};

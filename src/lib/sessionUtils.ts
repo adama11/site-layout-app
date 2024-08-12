@@ -1,27 +1,61 @@
-import type { SiteDevices } from '@/app/pages/main';
-import _ from 'lodash';
-import { adjectives, animals, colors, uniqueNamesGenerator } from 'unique-names-generator';
+import type { SiteDevices } from "@/app/pages/main";
+import _ from "lodash";
+import {
+  adjectives,
+  animals,
+  colors,
+  uniqueNamesGenerator,
+} from "unique-names-generator";
+
+export const LOCAL_STORAGE_KEY_SESSIONS = "site-layout-app-sessions";
+const LOCAL_STORAGE_KEY_LAST_UPDATED = "site-layout-app-last-updated";
 
 export const getNewSessionName = () => {
   const randomName: string = uniqueNamesGenerator({
     dictionaries: [adjectives, colors, animals],
-    separator: '-',
+    separator: "-",
   });
   return randomName;
+};
+
+export const getSavedSessions = () => {
+  if (typeof window === "undefined") {
+    return {};
+  }
+  const previousSessions = JSON.parse(
+    localStorage.getItem(LOCAL_STORAGE_KEY_SESSIONS) || "{}"
+  );
+  return previousSessions;
 };
 
 // save session to local storage
 export const saveSession = (sessionName: string, siteDevices: SiteDevices) => {
   // compare with previous value, then update if changed
-  const previousSessions = JSON.parse(localStorage.getItem('site-layout-app-sessions') || '{}');
+  if (typeof window === "undefined") {
+    return;
+  }
+  const previousSessions = getSavedSessions();
   if (!_.isEqual(previousSessions[sessionName], siteDevices)) {
-    localStorage.setItem('site-layout-app-sessions', JSON.stringify({ [sessionName]: siteDevices }));
-    localStorage.setItem('site-layout-app-last-updated', new Date().getTime().toString());
+    localStorage.setItem(
+      LOCAL_STORAGE_KEY_SESSIONS,
+      JSON.stringify({ [sessionName]: siteDevices })
+    );
+    localStorage.setItem(
+      LOCAL_STORAGE_KEY_LAST_UPDATED,
+      new Date().getTime().toString()
+    );
   }
 };
 
+const getSavedLastUpdated = () => {
+  if (typeof window === "undefined") {
+    return;
+  }
+  return localStorage.getItem(LOCAL_STORAGE_KEY_LAST_UPDATED);
+};
+
 export const getLastUpdateRelativeText = () => {
-  const lastUpdated = localStorage.getItem('site-layout-app-last-updated');
+  const lastUpdated = getSavedLastUpdated();
   if (lastUpdated) {
     // date from utc seconds
     const lastUpdatedDate = new Date(Number(lastUpdated));
@@ -38,6 +72,6 @@ export const getLastUpdateRelativeText = () => {
       return `${Math.floor(diffInSeconds / 86400)} days ago`;
     }
   } else {
-    return '-';
+    return "-";
   }
 };

@@ -1,10 +1,10 @@
-import type { ReactNode } from 'react';
-import './globals.css';
+import type { ReactNode } from "react";
+import "./globals.css";
 
 export const metadata = {
-  title: 'Site Layout App',
-  description: 'Site Layout App',
-  metadataBase: new URL('https://site-layout-app.vercel.app'),
+  title: "Site Layout App",
+  description: "Site Layout App",
+  metadataBase: new URL("https://site-layout-app.vercel.app"),
 };
 
 // biome-ignore lint/style/noDefaultExport: false
