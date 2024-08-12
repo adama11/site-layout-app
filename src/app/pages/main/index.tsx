@@ -183,7 +183,7 @@ export function Main() {
               <EmptyCard />
             )}
             {siteDevices !== undefined && !_.isEmpty(siteDevices) && (
-              <div className="w-full grid xs:grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="w-full grid xs:grid-cols-1 sm:grid-cols-3 gap-6">
                 <div className="col-span-1 flex flex-col gap-2">
                   {Object.entries(siteDevices).map(
                     ([deviceName, deviceCount]) => (
@@ -202,25 +202,25 @@ export function Main() {
                     <div className="text-sm uppercase text-slate-400 font-bold">
                       Total Equipment Area
                     </div>
-                    <div className="text-2xl mb-4">
+                    <div className="text-3xl mb-4">
                       {computeTotalArea(siteDevices).toFixed(0)} ft²
                     </div>
                     <div className="text-sm uppercase text-slate-400 font-bold">
                       Estimated Total Site Area (see Sample Layout)
                     </div>
-                    <div className="text-2xl mb-4">
+                    <div className="text-3xl mb-4">
                       {siteLayout?.estimatedSiteArea.toFixed(0)} ft²
                     </div>
                     <div className="text-sm uppercase text-slate-400 font-bold">
                       Total Power
                     </div>
-                    <div className="text-2xl mb-4">
+                    <div className="text-3xl mb-4">
                       {computeTotalPower(siteDevices).toFixed(1)} MWh
                     </div>
                     <div className="text-sm uppercase text-slate-400 font-bold">
                       Total Cost
                     </div>
-                    <div className="text-2xl mb-4">
+                    <div className="text-3xl mb-4">
                       {usdFormatter.format(computeTotalCost(siteDevices))}
                     </div>
                   </div>

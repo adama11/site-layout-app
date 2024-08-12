@@ -57,9 +57,11 @@ export const BatteryInfoCard = ({
           </div>
           <div className="text-lg">{device.power} MWh</div>
           <div className="flex mb-2">
-            {Array(device.powerLevel).fill(
-              <TbBolt color={device.powerColor} />
-            )}
+            {Array(device.powerLevel)
+              .fill(0)
+              .map((_, i) => (
+                <TbBolt key={i} color={device.powerColor} />
+              ))}
           </div>
           <div className="text-xs uppercase text-slate-400 font-bold">Cost</div>
           <div className="text-lg mb-2">{usdFormatter.format(device.cost)}</div>
