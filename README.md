@@ -12,7 +12,7 @@ Deployed on Vercel: https://site-layout-app.vercel.app/
 6. `make local` (ensure this finishes to completion, otherwise your db might not be set up correctly)
 7. go to http://localhost:8000, refresh page on first load
 
-Use `make run` to start the server after setup is complete.
+Use `make run` subsequently to start the server after this first time setup.
 
 ## Testing using Playwright
 
