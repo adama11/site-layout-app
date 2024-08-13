@@ -5,8 +5,12 @@ Deployed on Vercel: https://site-layout-app.vercel.app/
 ## Getting Started -- Local Setup
 
 1. install Docker Desktop
-2. install `npm`
-3. `make local`
+2. install `npm` (recommended to use v18 via `nvm`)
+3. clone this repo
+4. `cd site-layout-app`
+5. `cp .env.example .env` (copy example directly for local development)
+6. `make local` (ensure this finishes to completion, otherwise your db might not be set up correctly)
+7. go to http://localhost:8000, refresh page on first load
 
 
 ## Testing using Playwright
