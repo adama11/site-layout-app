@@ -35,7 +35,9 @@ export const getSiteLayout = (siteDevices: SiteDevices): SiteLayout => {
           y: rowIndex * 10,
         });
         devices[deviceName] = Math.max(0, devices[deviceName] - 1);
-        if (devices[deviceName] === 0) delete devices[deviceName];
+        if (devices[deviceName] === 0) {
+          delete devices[deviceName];
+        }
         remainingSiteWidth -= deviceInfo.xDimension;
         currentWidth += deviceInfo.xDimension;
         didAdd = true;

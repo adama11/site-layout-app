@@ -60,7 +60,7 @@ export const SampleLayoutCanvas = ({
 
   return (
     <div className="h-full">
-      <canvas ref={canvasRef} className="w-full h-full"></canvas>
+      <canvas ref={canvasRef} className="w-full h-full" />
     </div>
   );
 };

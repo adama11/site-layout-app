@@ -38,6 +38,7 @@ export const BatteryInfoCard = ({
             {Array(device.powerLevel)
               .fill(0)
               .map((_, i) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: ignore, we have no other key
                 <TbBolt key={i} color={device.powerColor} />
               ))}
           </div>

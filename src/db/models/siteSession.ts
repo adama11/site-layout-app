@@ -8,4 +8,4 @@ export const siteSession = sqliteTable('site_session', {
   deviceData: text('device_data').notNull().default(''),
 });
 
-export type DBSiteSession = typeof siteSession.$inferInsert;
+export type DbSiteSession = typeof siteSession.$inferInsert;

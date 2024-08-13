@@ -20,6 +20,7 @@ export type DeviceInfo = {
 };
 
 export const deviceData: Record<string, DeviceInfo> = {
+  // biome-ignore lint/style/useNamingConvention: use real name
   MegapackXL: {
     description: 'Highest power demands, latest features, and best performance.',
     abbreviation: 'MPXL',
@@ -33,6 +34,7 @@ export const deviceData: Record<string, DeviceInfo> = {
     powerLevel: 4,
     powerColor: '#76e841',
   },
+  // biome-ignore lint/style/useNamingConvention: use real name
   Megapack2: {
     description: 'High power demands and medium-sized deployments.',
     abbreviation: 'MP2',
@@ -46,6 +48,7 @@ export const deviceData: Record<string, DeviceInfo> = {
     powerLevel: 3,
     powerColor: '#00b4ff',
   },
+  // biome-ignore lint/style/useNamingConvention: use real name
   Megapack: {
     description: 'Medium power demands for smaller deployments.',
     abbreviation: 'MP',
@@ -59,6 +62,7 @@ export const deviceData: Record<string, DeviceInfo> = {
     powerLevel: 2,
     powerColor: '#00b4ff',
   },
+  // biome-ignore lint/style/useNamingConvention: use real name
   PowerPack: {
     description: 'Low power demands for simple deployments.',
     abbreviation: 'PP',
@@ -72,6 +76,7 @@ export const deviceData: Record<string, DeviceInfo> = {
     powerLevel: 1,
     powerColor: '#00b4ff',
   },
+  // biome-ignore lint/style/useNamingConvention: use real name
   Transformer: {
     description: 'Supporting hardware for industrial batteries.',
     abbreviation: 'TX',

@@ -1,11 +1,10 @@
 'use server';
-
-import type { DBSiteSession } from '@/db/models/siteSession';
 import { createNewSiteSession, getSiteSession, updateSiteSession } from '@/lib/dbSessionUtils';
 import type { SiteDevices } from '.';
+import type { DbSiteSession } from '@/db/models/siteSession';
 
 export const getOrCreateSession = async (sessionName: string | null) => {
-  let session: DBSiteSession | null = null;
+  let session: DbSiteSession | null = null;
   if (sessionName) {
     session = await getSiteSession(sessionName);
   }
