@@ -4,7 +4,10 @@ import { Header } from "@/app/components/header";
 import { deviceData } from "@/app/device-data";
 import {} from "@/components/ui/card";
 import { getSiteLayout, type SiteLayout } from "@/lib/layoutUtils";
-import { setNumberOfTransformersNeeded } from "@/lib/utils";
+import {
+  dateFromLastUpdatedText,
+  setNumberOfTransformersNeeded,
+} from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -51,7 +54,7 @@ export function Main() {
     setSiteDevices(siteDevices);
     setSiteLayout(getSiteLayout(siteDevices));
     addSessionToUrl(session.name);
-    setLastUpdated(new Date(Date.parse(`${session.lastUpdated} UTC`)));
+    setLastUpdated(dateFromLastUpdatedText(session.lastUpdated));
   }, [addSessionToUrl, searchParams]);
 
   useEffect(() => {
@@ -106,15 +109,16 @@ export function Main() {
     sessionName: string | undefined,
     siteDevices: SiteDevices | undefined
   ) => {
-    if (sessionName !== undefined && siteDevices !== undefined) {
-      const session = await saveSession(sessionName, siteDevices);
-      toast.toast({
-        title: "Session saved!",
-        description: "Keep your session link handy to access it later.",
-      });
-      if (session) {
-        setLastUpdated(new Date(Date.parse(`${session.lastUpdated} UTC`)));
-      }
+    if (sessionName === undefined || siteDevices === undefined) {
+      return;
+    }
+    const session = await saveSession(sessionName, siteDevices);
+    toast.toast({
+      title: "Session saved!",
+      description: "Keep your session link handy to access it later.",
+    });
+    if (session) {
+      setLastUpdated(dateFromLastUpdatedText(session.lastUpdated));
     }
   };
 

@@ -28,7 +28,7 @@ export const SampleSiteLayout = ({
         {siteLayout === undefined && <SkeletonCard />}
         {siteLayout !== undefined && siteLayoutIsEmpty && <EmptyCard />}
         {siteLayout !== undefined && !siteLayoutIsEmpty && (
-          <div className="rounded-sm">
+          <div className="w-full rounded-sm">
             <div className="flex flex-row">
               <div className="flex flex-col">
                 <div className="text-lg mb-3">
@@ -45,8 +45,8 @@ export const SampleSiteLayout = ({
                   {siteLayout.estimatedSiteHeight.toFixed(0)} ft
                 </div>
               </div>
-              <div className="flex flex-row">
-                <div className="flex flex-col lg:w-1/2">
+              <div className="w-full flex flex-row">
+                <div className="w-full flex flex-col lg:w-1/2">
                   <div className="text-lg uppercase text-slate-400 font-bold text-center border-b-4 mb-2 border-slate-400">
                     {siteLayout.estimatedSiteWidth.toFixed(0)} ft
                   </div>
