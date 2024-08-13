@@ -1,26 +1,17 @@
 "use client";
 import { BatteryInfoCard } from "@/app/components/battery-info-card";
-import { DeviceSummaryRow } from "@/app/components/device-summary-row";
-import { EmptyCard } from "@/app/components/empty-card";
 import { Header } from "@/app/components/header";
-import { SampleLayoutCanvas } from "@/app/components/sample-layout-canvas";
-import { SkeletonCard } from "@/app/components/skeleton-card";
 import { deviceData } from "@/app/device-data";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {} from "@/components/ui/card";
 import { getSiteLayout, type SiteLayout } from "@/lib/layoutUtils";
-import {
-  setNumberOfTransformersNeeded,
-  computeTotalArea,
-  computeTotalCost,
-  computeTotalPower,
-  usdFormatter,
-} from "@/lib/utils";
-import _ from "lodash";
+import { setNumberOfTransformersNeeded } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { TbInfoCircle } from "react-icons/tb";
 import { getOrCreateSession, saveSession } from "./actions";
+import { SampleSiteLayout } from "@/app/components/sample-site-layout-card";
+import { SiteSummaryCard } from "@/app/components/site-summary-card";
 
 export type SiteDevices = Record<string, number>;
 
@@ -111,11 +102,6 @@ export function Main() {
     }
   };
 
-  const siteLayoutIsEmpty =
-    _.isEmpty(siteLayout) ||
-    (siteLayout.layoutPositions.length === 1 &&
-      _.isEmpty(siteLayout.layoutPositions[0]));
-
   const save = async (
     sessionName: string | undefined,
     siteDevices: SiteDevices | undefined
@@ -154,110 +140,15 @@ export function Main() {
         ))}
       </div>
       <div className="w-full pt-10 px-10">
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle>
-              <div className="font-bold text-3xl text-slate-700">
-                Site Summary
-              </div>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {siteDevices === undefined && <SkeletonCard />}
-            {siteDevices !== undefined && _.isEmpty(siteDevices) && (
-              <EmptyCard />
-            )}
-            {siteDevices !== undefined && !_.isEmpty(siteDevices) && (
-              <div className="w-full grid xs:grid-cols-1 sm:grid-cols-3 gap-6">
-                <div className="col-span-1 flex flex-col gap-2">
-                  {Object.entries(siteDevices).map(
-                    ([deviceName, deviceCount]) => (
-                      <DeviceSummaryRow
-                        key={deviceName}
-                        deviceName={deviceName}
-                        deviceCount={deviceCount}
-                        addDevice={handleAddDevice}
-                        removeDevice={handleRemoveDevice}
-                      />
-                    )
-                  )}
-                </div>
-                <div className="xs:col-span-1 lg:col-span-2">
-                  <div className="flex flex-col">
-                    <div className="text-sm uppercase text-slate-400 font-bold">
-                      Total Equipment Area
-                    </div>
-                    <div className="text-3xl mb-4">
-                      {computeTotalArea(siteDevices).toFixed(0)} ft²
-                    </div>
-                    <div className="text-sm uppercase text-slate-400 font-bold">
-                      Estimated Total Site Area (see Sample Layout)
-                    </div>
-                    <div className="text-3xl mb-4">
-                      {siteLayout?.estimatedSiteArea.toFixed(0)} ft²
-                    </div>
-                    <div className="text-sm uppercase text-slate-400 font-bold">
-                      Total Power
-                    </div>
-                    <div className="text-3xl mb-4">
-                      {computeTotalPower(siteDevices).toFixed(1)} MWh
-                    </div>
-                    <div className="text-sm uppercase text-slate-400 font-bold">
-                      Total Cost
-                    </div>
-                    <div className="text-3xl mb-4">
-                      {usdFormatter.format(computeTotalCost(siteDevices))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        <SiteSummaryCard
+          siteDevices={siteDevices}
+          siteLayout={siteLayout}
+          handleAddDevice={handleAddDevice}
+          handleRemoveDevice={handleRemoveDevice}
+        />
       </div>
       <div className="w-full pt-10 px-10">
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle>
-              <div className="font-bold text-3xl text-slate-700">
-                Sample Site Layout
-              </div>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex items-stretch justify-center min-h-80">
-            {siteLayout === undefined && <SkeletonCard />}
-            {siteLayout !== undefined && siteLayoutIsEmpty && <EmptyCard />}
-            {siteLayout !== undefined && !siteLayoutIsEmpty && (
-              <div className="rounded-sm">
-                <div className="flex flex-row">
-                  <div className="flex flex-col">
-                    <div className="text-lg mb-3">
-                      <br />
-                    </div>
-                    <div
-                      className="grow text-lg uppercase text-slate-400 font-bold text-center border-l-4 mr-2 border-slate-400"
-                      style={{
-                        writingMode: "vertical-rl",
-                        textOrientation: "sideways",
-                        transform: "rotate(180deg)",
-                      }}
-                    >
-                      {siteLayout.estimatedSiteHeight.toFixed(0)} ft
-                    </div>
-                  </div>
-                  <div className="flex flex-row">
-                    <div className="flex flex-col lg:w-1/2">
-                      <div className="text-lg uppercase text-slate-400 font-bold text-center border-b-4 mb-2 border-slate-400">
-                        {siteLayout.estimatedSiteWidth.toFixed(0)} ft
-                      </div>
-                      <SampleLayoutCanvas siteLayout={siteLayout} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        <SampleSiteLayout siteLayout={siteLayout} />
       </div>
     </div>
   );
