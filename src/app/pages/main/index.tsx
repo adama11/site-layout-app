@@ -1,5 +1,4 @@
 "use client";
-
 import { BatteryInfoCard } from "@/app/components/battery-info-card";
 import { DeviceSummaryRow } from "@/app/components/device-summary-row";
 import { EmptyCard } from "@/app/components/empty-card";
@@ -8,13 +7,7 @@ import { SampleLayoutCanvas } from "@/app/components/sample-layout-canvas";
 import { SkeletonCard } from "@/app/components/skeleton-card";
 import { deviceData } from "@/app/device-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getSiteLayout, SiteLayout } from "@/lib/layoutUtils";
-import {
-  getLastUpdateRelativeText,
-  getNewSessionName,
-  getSavedSessions,
-  saveSession,
-} from "@/lib/sessionUtils";
+import { getSiteLayout, type SiteLayout } from "@/lib/layoutUtils";
 import {
   setNumberOfTransformersNeeded,
   computeTotalArea,
@@ -23,8 +16,11 @@ import {
   usdFormatter,
 } from "@/lib/utils";
 import _ from "lodash";
+import { useToast } from "@/components/ui/use-toast";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { TbInfoCircle } from "react-icons/tb";
+import { getOrCreateSession, saveSession } from "./actions";
 
 export type SiteDevices = Record<string, number>;
 
@@ -32,19 +28,16 @@ export function Main() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const toast = useToast();
 
-  const loadSessionName = () => {
-    return searchParams.get("session") || getNewSessionName();
-  };
-
-  const loadSiteDevices = (): SiteDevices => {
-    const sessionName = searchParams.get("session");
-    if (!sessionName) {
-      return {};
-    }
-    const previousSessions = getSavedSessions();
-    return previousSessions[sessionName] || {};
-  };
+  const [siteDevices, setSiteDevices] = useState<SiteDevices | undefined>(
+    undefined
+  );
+  const [sessionName, setSessionName] = useState<string | undefined>(undefined);
+  const [lastUpdated, setLastUpdated] = useState<Date | undefined>(undefined);
+  const [siteLayout, setSiteLayout] = useState<SiteLayout | undefined>(
+    undefined
+  );
 
   const addSessionToUrl = useCallback(
     (name: string) => {
@@ -55,105 +48,102 @@ export function Main() {
     [searchParams, pathname, router]
   );
 
-  const [siteDevices, setSiteDevices] = useState<SiteDevices | undefined>(
-    undefined
-  );
-  const [sessionName, setSessionName] = useState<string | undefined>(undefined);
-  const [lastUpdatedText, setLastUpdatedText] = useState<string>(
-    getLastUpdateRelativeText()
-  );
-  const [siteLayout, setSiteLayout] = useState<SiteLayout | undefined>(
-    undefined
-  );
-
-  // Load session data to avoid hydration error
-  useEffect(() => {
-    if (sessionName === undefined) {
-      setSessionName(loadSessionName());
-    }
-  }, [sessionName]);
-  useEffect(() => {
-    if (siteDevices === undefined) {
-      setSiteDevices(loadSiteDevices());
-    }
-  }, [siteDevices]);
-  useEffect(() => {
-    if (siteDevices === undefined) return;
-    setSiteLayout(getSiteLayout(siteDevices));
-  }, [siteDevices]);
-
-  // Save session side effect
-  useEffect(() => {
-    if (!_.isEmpty(siteDevices) && sessionName !== undefined) {
-      saveSession(sessionName, siteDevices);
-    }
-  }, [addSessionToUrl, sessionName, siteDevices]);
-  useEffect(() => {
-    if (sessionName !== undefined) {
-      addSessionToUrl(sessionName);
-    }
-  }, [addSessionToUrl, sessionName]);
-
-  // update last updated text every 5 seconds
-  const useInterval = (callback: () => void, delay: number) => {
-    const savedCallback = useRef(callback);
-
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-
-    useEffect(() => {
-      const tick = () => savedCallback.current();
-      if (delay !== null) {
-        const id = setInterval(tick, delay);
-        return () => clearInterval(id);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: ignore
+  const loadSession = useCallback(
+    async (forceCreate = false) => {
+      const sessionFromUrl = searchParams.get("session");
+      if (sessionFromUrl === sessionName) {
+        return;
       }
-    }, [delay]);
-  };
+      const session = await getOrCreateSession(
+        forceCreate ? null : sessionFromUrl
+      );
+      setSessionName(session.name);
+      const siteDevices = JSON.parse(session.deviceData || "{}");
+      setSiteDevices(siteDevices);
+      setSiteLayout(getSiteLayout(siteDevices));
+      addSessionToUrl(session.name);
+      setLastUpdated(new Date(Date.parse(`${session.lastUpdated} UTC`)));
+    },
+    [addSessionToUrl, searchParams]
+  );
 
-  useInterval(() => {
-    setLastUpdatedText(getLastUpdateRelativeText());
-  }, 5000);
+  useEffect(() => {
+    loadSession();
+  }, [loadSession]);
+
+  const newTransformerAddedToast = () =>
+    toast.toast({
+      description: (
+        <span className="flex items-center font-semibold">
+          <TbInfoCircle className="mr-2 text-slate-400 text-xl" />A transformer
+          was added to your site to meet your power demands.
+        </span>
+      ),
+    });
 
   const handleAddDevice = (deviceName: string) => {
-    let newSiteDevices;
+    let newSiteDevices: SiteDevices | undefined;
     setSiteDevices((prev) => {
       newSiteDevices = { ...prev };
       newSiteDevices[deviceName] = (newSiteDevices[deviceName] || 0) + 1;
-      return setNumberOfTransformersNeeded(newSiteDevices);
+      const [devices, didAdd] = setNumberOfTransformersNeeded(newSiteDevices);
+      if (didAdd) {
+        newTransformerAddedToast();
+      }
+      return devices;
     });
     if (newSiteDevices !== undefined) {
       setSiteLayout(getSiteLayout(newSiteDevices));
     }
   };
   const handleRemoveDevice = (deviceName: string) => {
-    let newSiteDevices;
+    let newSiteDevices: SiteDevices | undefined;
     setSiteDevices((prev) => {
       newSiteDevices = { ...prev };
-      if (newSiteDevices === undefined) return newSiteDevices;
+      if (newSiteDevices === undefined) {
+        return newSiteDevices;
+      }
       newSiteDevices[deviceName] = Math.max(0, newSiteDevices[deviceName] - 1);
-      if (newSiteDevices[deviceName] === 0) delete newSiteDevices[deviceName];
-      return setNumberOfTransformersNeeded(newSiteDevices);
+      if (newSiteDevices[deviceName] === 0) {
+        delete newSiteDevices[deviceName];
+      }
+      const [devices, _] = setNumberOfTransformersNeeded(newSiteDevices);
+      return devices;
     });
     if (newSiteDevices !== undefined) {
       setSiteLayout(getSiteLayout(newSiteDevices));
     }
   };
 
-  let siteLayoutIsEmpty =
+  const siteLayoutIsEmpty =
     _.isEmpty(siteLayout) ||
     (siteLayout.layoutPositions.length === 1 &&
       _.isEmpty(siteLayout.layoutPositions[0]));
+
+  const save = async (
+    sessionName: string | undefined,
+    siteDevices: SiteDevices | undefined
+  ) => {
+    if (sessionName !== undefined && siteDevices !== undefined) {
+      const session = await saveSession(sessionName, siteDevices);
+      toast.toast({
+        title: "Session saved!",
+        description: "Keep your session link handy to access it later.",
+      });
+      if (session) {
+        setLastUpdated(new Date(Date.parse(`${session.lastUpdated} UTC`)));
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-slate-300 pb-10">
       <Header
         sessionName={sessionName}
-        lastUpdatedText={lastUpdatedText}
-        setSessionName={setSessionName}
-        setSiteDevices={setSiteDevices}
-        setSiteLayout={setSiteLayout}
-        getNewSessionName={getNewSessionName}
+        lastUpdated={lastUpdated}
+        resetSession={() => loadSession(true)}
+        saveSession={() => save(sessionName, siteDevices)}
       />
       <div className="w-full font-bold text-3xl text-slate-700 text-left pt-5 px-10">
         Devices

@@ -1,23 +1,31 @@
-build:
-	docker compose build
-
-build-fresh:
-	docker compose build --no-cache
-
 run:
-	docker compose up
+	docker restart site-layout-db && npm run dev
 
-# lint:
-# 	docker compose run --rm site-layout-app npm run lint
+lint:
+	npm run lint
 
-shell:
-	docker compose run --rm site-layout-app bash
-
-install-deps:
-	docker compose run --rm site-layout-app npm install
-
-install-dev:
+npm-install:
 	npm install && npm install -D
 
-db:
-	# set up a local db
+db-create:
+	docker run --name site-layout-db -p 8080:8080 -d ghcr.io/tursodatabase/libsql-server:latest
+
+db-up:
+	docker restart site-layout-db
+
+db-down:
+	docker stop site-layout-db
+
+db-clean:
+	docker stop site-layout-db && docker rm site-layout-db || true
+
+migrations:
+	npm run generate
+
+migrate:
+	npm run migrate
+
+drizzle-studio:
+	npx drizzle-kit studio
+
+local: db-clean npm-install db-create migrations migrate run

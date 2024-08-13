@@ -1,6 +1,6 @@
-import { SiteDevices } from "@/app/pages/main";
-import { deviceData } from "@/app/device-data";
-import _ from "lodash";
+import type { SiteDevices } from '@/app/pages/main';
+import { deviceData } from '@/app/device-data';
+import _ from 'lodash';
 
 export type SitePosition = {
   x: number;
@@ -18,7 +18,7 @@ export type SiteLayout = {
 const MAX_LAYOUT_WIDTH = 100;
 
 export const getSiteLayout = (siteDevices: SiteDevices): SiteLayout => {
-  let devices = { ...siteDevices };
+  const devices = { ...siteDevices };
   const positions: SitePosition[][] = [[]];
   let maxWidth = 0;
   let rowIndex = 0;
@@ -28,10 +28,7 @@ export const getSiteLayout = (siteDevices: SiteDevices): SiteLayout => {
   while (!_.isEmpty(devices)) {
     let didAdd = false;
     for (const [deviceName, deviceInfo] of Object.entries(deviceData)) {
-      if (
-        devices[deviceName] > 0 &&
-        remainingSiteWidth >= deviceInfo.xDimension
-      ) {
+      if (devices[deviceName] > 0 && remainingSiteWidth >= deviceInfo.xDimension) {
         positions[rowIndex].push({
           deviceName,
           x: currentWidth,

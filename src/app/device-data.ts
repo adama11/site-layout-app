@@ -21,69 +21,68 @@ export type DeviceInfo = {
 
 export const deviceData: Record<string, DeviceInfo> = {
   MegapackXL: {
-    description:
-      "Highest power demands, latest features, and best performance.",
-    abbreviation: "MPXL",
+    description: 'Highest power demands, latest features, and best performance.',
+    abbreviation: 'MPXL',
     xDimension: 40, // in feet
     yDimension: 10, // in feet
     power: 4, // in MWh
     cost: 120_000, // in $USD
-    releaseDate: "2022",
-    type: "battery",
-    image: "megapackxl.jpg",
+    releaseDate: '2022',
+    type: 'battery',
+    image: 'megapackxl.jpg',
     powerLevel: 4,
-    powerColor: "#76e841",
+    powerColor: '#76e841',
   },
   Megapack2: {
-    description: "High power demands and medium-sized deployments.",
-    abbreviation: "MP2",
+    description: 'High power demands and medium-sized deployments.',
+    abbreviation: 'MP2',
     xDimension: 30, // in feet
     yDimension: 10, // in feet
     power: 3, // in MWh
     cost: 80_000, // in $USD
-    releaseDate: "2021",
-    type: "battery",
-    image: "megapack.jpg",
+    releaseDate: '2021',
+    type: 'battery',
+    image: 'megapack.jpg',
     powerLevel: 3,
-    powerColor: "#00b4ff",
+    powerColor: '#00b4ff',
   },
   Megapack: {
-    description: "Medium power demands for simple deployments.",
-    abbreviation: "MP",
+    description: 'Medium power demands for smaller deployments.',
+    abbreviation: 'MP',
     xDimension: 30, // in feet
     yDimension: 10, // in feet
     power: 2, // in MWh
     cost: 50_000, // in $USD
-    releaseDate: "2005",
-    type: "battery",
-    image: "megapack.jpg",
+    releaseDate: '2005',
+    type: 'battery',
+    image: 'megapack.jpg',
     powerLevel: 2,
-    powerColor: "#00b4ff",
+    powerColor: '#00b4ff',
   },
   PowerPack: {
-    description: "Low power demands for small deployments.",
-    abbreviation: "PP",
+    description: 'Low power demands for simple deployments.',
+    abbreviation: 'PP',
     xDimension: 10, // in feet
     yDimension: 10, // in feet
     power: 1, // in MWh
     cost: 10_000, // in $USD
-    releaseDate: "2000",
-    type: "battery",
-    image: "powerpack.jpg",
+    releaseDate: '2000',
+    type: 'battery',
+    image: 'powerpack.jpg',
     powerLevel: 1,
-    powerColor: "#00b4ff",
+    powerColor: '#00b4ff',
   },
   Transformer: {
-    description: "Supporting hardware for industrial batteries.",
-    abbreviation: "TX",
+    description: 'Supporting hardware for industrial batteries.',
+    abbreviation: 'TX',
     xDimension: 10, // in feet
     yDimension: 10, // in feet
     power: -0.5, // in MWh
     cost: 10_000, // in $USD
-    releaseDate: "-",
-    type: "transformer",
-    image: "transformer.jpg",
+    releaseDate: '-',
+    type: 'transformer',
+    image: 'transformer.jpg',
     powerLevel: 1,
-    powerColor: "red",
+    powerColor: 'red',
   },
 };

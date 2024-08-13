@@ -1,9 +1,9 @@
-import { Main } from "@/app/pages/main";
-import { Inter } from "next/font/google";
-import { Suspense } from "react";
-import { TbLoader2 } from "react-icons/tb";
+import { Main } from '@/app/pages/main';
+import { Inter } from 'next/font/google';
+import { Suspense } from 'react';
+import { TbLoader2 } from 'react-icons/tb';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 // biome-ignore lint/style/noDefaultExport: false
 export default function App() {
