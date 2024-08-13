@@ -29,3 +29,6 @@ drizzle-studio:
 	npx drizzle-kit studio
 
 local: db-clean npm-install db-create migrations migrate run
+
+test:
+	npx playwright test

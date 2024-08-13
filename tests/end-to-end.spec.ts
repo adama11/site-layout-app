@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("test-basic-layout", async ({ page }) => {
-  await page.goto("http://localhost:8000/");
+  await page.goto("http://localhost:3000/");
   await page.getByRole("button", { name: "Add to Site" }).first().click();
   await page.getByRole("button", { name: "Add to Site" }).nth(1).click();
   await expect(page.getByText("MegapackXL-1+")).toBeDefined();

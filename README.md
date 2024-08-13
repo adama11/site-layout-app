@@ -8,6 +8,13 @@ Deployed on Vercel: https://site-layout-app.vercel.app/
 2. install `npm`
 3. `make local`
 
+
+## Testing using Playwright
+
+1. install playwright
+2. `make test`
+
+
 ## Features
 - Generate a site layout based on the number of devices in the site
 - Save and load site layouts, access them later by saving your link (with session name)
