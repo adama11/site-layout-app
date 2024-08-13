@@ -224,7 +224,7 @@ export function Main() {
               </div>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex items-stretch justify-center min-h-80">
             {siteLayout === undefined && <SkeletonCard />}
             {siteLayout !== undefined && siteLayoutIsEmpty && <EmptyCard />}
             {siteLayout !== undefined && !siteLayoutIsEmpty && (

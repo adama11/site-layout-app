@@ -7,3 +7,13 @@ Deployed on Vercel: https://site-layout-app.vercel.app/
 1. install Docker Desktop
 2. install `npm`
 3. `make local`
+
+## Features
+- Generate a site layout based on the number of devices in the site
+- Save and load site layouts, access them later by saving your link (with session name)
+- Add and remove devices from the site
+- Calculate the total area, power, and cost of the site
+- Responsive layout
+- Data is stored in a database
+- Start new session
+- View last saved timestamp
